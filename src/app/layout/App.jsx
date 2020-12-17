@@ -6,6 +6,7 @@ import { Container } from "semantic-ui-react";
 import { Route } from "react-router-dom";
 import EventDetailedPage from "../../features/events/eventDetailed/EventDetailedPage";
 import EventForm from "../../features/events/eventForm/EventForm";
+import Sandbox from "../../features/sandbox/Sandbox";
 
 export default function App() {
   return (
@@ -17,8 +18,8 @@ export default function App() {
           <>
             <NavBar />
             <Container className="main">
-              <Route exact path="/" component={HomePage} />
               <Route exact path="/events" component={EventDashboard} />
+              <Route exact path="/sandbox" component={Sandbox} />
               <Route path="/events/:id" component={EventDetailedPage} />
               <Route
                 path={["/createEvent", "/manage/:id"]}

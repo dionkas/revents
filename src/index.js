@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "./app/store/configureStore";
 
+// creating store from our configuration taking in the reducer
 const store = configureStore();
 
 const rootEl = document.getElementById("root");
