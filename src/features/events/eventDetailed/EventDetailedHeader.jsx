@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Header, Image, Item, Segment } from "semantic-ui-react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const eventImageStyle = {
   filter: "brightness(30%)",
@@ -15,12 +15,12 @@ const eventImageTextStyle = {
   color: "white",
 };
 
-export default function EventDetailedHeader() {
+export default function EventDetailedHeader({ event }) {
   return (
     <Segment.Group>
       <Segment basic attached="top" style={{ padding: "0" }}>
         <Image
-          src={`/assets/categoryImages/drinks.jpg`}
+          src={`/assets/categoryImages/${event.category}.jpg`}
           fluid
           style={eventImageStyle}
         />
@@ -31,12 +31,12 @@ export default function EventDetailedHeader() {
               <Item.Content>
                 <Header
                   size="huge"
-                  content="Event Title"
+                  content={event.title}
                   style={{ color: "white" }}
                 />
                 <p>Event Date</p>
                 <p>
-                  Hosted by <strong>Bob</strong>
+                  Hosted by <strong>{event.hostedBy}</strong>
                 </p>
               </Item.Content>
             </Item>
