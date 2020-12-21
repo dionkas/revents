@@ -11,7 +11,7 @@ export default function MySelectInput({ label, ...props }) {
         clearable
         value={field.value || null}
         onChange={(e, d) => helpers.setValue(d.value)}
-        onBlue={() => helpers.setTouched(true)}
+        onBlur={() => helpers.setTouched(true)}
         {...props}
       />
       {meta.touched && meta.error ? (
