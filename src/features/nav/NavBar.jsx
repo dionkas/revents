@@ -10,7 +10,7 @@ export default function NavBar({ setFormOpen }) {
 
   function handleSignOut() {
     setAuthenticated(false);
-    history.push("/")
+    history.push("/");
   }
 
   return (
@@ -25,7 +25,7 @@ export default function NavBar({ setFormOpen }) {
         {authenticated && (
           <Menu.Item as={NavLink} to="/createEvent">
             <Button
-              onClick={() => setFormOpen(true)}
+              // onClick={() => setFormOpen(true)}
               positive
               inverted
               content="Create Event"
