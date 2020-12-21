@@ -1,9 +1,15 @@
 import React from "react";
-import {Button, FormField, Header, Label, Segment} from "semantic-ui-react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Button, Header, Segment } from "semantic-ui-react";
+import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
+import cuid from "cuid";
+import MyTextInput from "../../../app/common/form/MyTextInput";
+import { createEvent, updateEvent } from "../eventActions";
+import MyTextArea from "../../../app/common/form/MyTextArea";
+import MySelectInput from "../../../app/common/form/MySelectInput";
+import { categoryData } from "../../../app/api/categoryOptions";
 
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch();
@@ -22,45 +28,45 @@ export default function EventForm({ match, history }) {
 
   const validationSchema = Yup.object({
     title: Yup.string().required("You must provide a title"),
+    category: Yup.string().required("You must provide a category"),
+    description: Yup.string().required(""),
+    city: Yup.string().required(""),
+    venue: Yup.string().required(""),
+    date: Yup.string().required(""),
   });
-
-  // function handleFormSubmit() {
-  //   selectedEvent
-  //     ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-  //     : dispatch(
-  //         createEvent({ ...values, id: cuid(), hostedBy: "Bob", attendees: [] })
-  //       );
-  //   history.push("events");
-  // }
 
   return (
     <Segment clearing>
-      <Header content={selectedEvent ? "Edit the event" : "Create new event"} />
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => {
+          selectedEvent
+            ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+            : dispatch(
+                createEvent({
+                  ...values,
+                  id: cuid(),
+                  hostedBy: "Bob",
+                  attendees: [],
+                })
+              );
+          history.push("events");
+        }}
         validationSchema={validationSchema}
       >
         <Form className="ui form">
-          <FormField>
-            <Field name="title" placeholder="Event title" />
-            <ErrorMessage name="title" render={error => <Label basic color="red" content={error}/>} />
-          </FormField>
-          <FormField>
-            <Field name="category" placeholder="Category" />
-          </FormField>
-          <FormField>
-            <Field name="description" placeholder="Description" />
-          </FormField>
-          <FormField>
-            <Field name="city" placeholder="City" />
-          </FormField>
-          <FormField>
-            <Field name="venue" placeholder="Venue" />
-          </FormField>
-          <FormField>
-            <Field name="date" placeholder="Event date" type="date" />
-          </FormField>
+          <Header sub color="teal" content="Event Details" />
+          <MyTextInput name="title" placeholder="Event title" />
+          <MySelectInput
+            name="category"
+            placeholder="Event category"
+            options={categoryData}
+          />
+          <MyTextArea name="description" placeholder="Description" rows="3" />
+          <Header sub color="teal" content="Event Location Details" />
+          <MyTextInput name="city" placeholder="City" />
+          <MyTextInput name="venue" placeholder="Venue" />
+          <MyTextInput name="date" placeholder="Event date" type="date" />
           <Button type="submit" floated="right" positive content="Submit" />
           <Button
             as={Link}
