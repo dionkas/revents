@@ -18,6 +18,8 @@ export default function EventDetailedPage({ match }) {
   );
   const { loading, error } = useSelector((state) => state.async);
 
+  console.log(event)
+
   useFirestoreDoc({
     query: () => listenToEventFromFirestore(match.params.id),
     data: (event) => dispatch(listenToEvents([event])),
