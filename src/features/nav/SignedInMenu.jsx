@@ -1,17 +1,30 @@
 import React from "react";
 import { Dropdown, Image, Menu } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import { signOutUser } from "../auth/authActions";
+import { useSelector } from "react-redux";
+import { signOutFirebase } from "../../app/firestore/firebaseService";
+import {toast} from "react-toastify";
 
 export default function SignedInMenu() {
-  const dispatch = useDispatch();
-  const { currentUser } = useSelector(state => state.auth)
+  const { currentUser } = useSelector((state) => state.auth);
   const history = useHistory();
+
+  async function handleSignOut() {
+    try {
+      await signOutFirebase();
+      history.push("/");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
 
   return (
     <Menu.Item position="right">
-      <Image avatar spaced="right" src={currentUser.photoURL || "/assets/user.png" }/>
+      <Image
+        avatar
+        spaced="right"
+        src={currentUser.photoURL || "/assets/user.png"}
+      />
       <Dropdown pointing="top left" text={currentUser.email || "Bob"}>
         <Dropdown.Menu>
           <Dropdown.Item
@@ -22,10 +35,7 @@ export default function SignedInMenu() {
           />
           <Dropdown.Item text="My profile" icon="user" />
           <Dropdown.Item
-            onClick={() => {
-              dispatch(signOutUser());
-              history.push("/");
-            }}
+            onClick={() => handleSignOut()}
             text="Sign out"
             icon="power"
           />
