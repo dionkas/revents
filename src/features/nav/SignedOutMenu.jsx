@@ -3,7 +3,7 @@ import { Button, Menu } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../app/common/modals/modelReducer";
 
-export default function SignedOutMenu({ setAuthenticated }) {
+export default function SignedOutMenu( ) {
   const dispatch = useDispatch();
 
   return (

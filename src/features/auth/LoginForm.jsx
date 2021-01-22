@@ -3,10 +3,11 @@ import ModalWrapper from "../../app/common/modals/ModalWrapper";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../../app/common/form/MyTextInput";
-import {Button, Label} from "semantic-ui-react";
+import { Button, Divider, Label } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../app/common/modals/modelReducer";
 import { signInWithEmail } from "../../app/firestore/firebaseService";
+import SocialLogin from "./SocialLogin";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export default function LoginForm() {
             setSubmitting(false);
             dispatch(closeModal());
           } catch (error) {
-            setErrors({auth: "Problem with username or password"})
+            setErrors({ auth: "Problem with username or password" });
             setSubmitting(false);
           }
         }}
@@ -38,7 +39,14 @@ export default function LoginForm() {
               placeholder="Password"
               type="password"
             />
-            {errors.auth && <Label basic color="red" style={{marginBottom: 10}} content={errors.auth}/>}
+            {errors.auth && (
+              <Label
+                basic
+                color="red"
+                style={{ marginBottom: 10 }}
+                content={errors.auth}
+              />
+            )}
             <Button
               loading={isSubmitting}
               disable={!isValid || !dirty || isSubmitting}
@@ -48,6 +56,8 @@ export default function LoginForm() {
               color="teal"
               content="Login"
             />
+            <Divider horizontal>Or</Divider>
+            <SocialLogin />
           </Form>
         )}
       </Formik>
